@@ -92,20 +92,40 @@ when you want to refresh the login colors.
 
 ## Install
 
+### Full install (Arch / Arch-based) — recommended
+
+`install.sh` does everything: installs an AUR helper, all dependencies
+(Caelestia shell + CLI, Quickshell, Hyprland, the AI/cheat-sheet runtime, SDDM,
+fonts, utilities), then deploys the config and SDDM theme.
+
+```bash
+./install.sh                # interactive full install
+./install.sh --yes          # non-interactive (assume yes)
+./install.sh --no-sddm      # skip the SDDM theme + sudo steps
+./install.sh --no-deps      # skip package installs, just deploy configs
+```
+
+### Config-only deploy (any distro)
+
+If you already have the dependencies, `install.fish` just deploys the files
+(with a backup) and the SDDM theme:
+
 ```fish
-./install.fish            # full install (backs up your existing config first)
+./install.fish            # deploy config + SDDM theme
 ./install.fish --no-sddm  # skip the SDDM (sudo) steps
 ```
 
-Then:
+On other distros, install the equivalents of the packages listed in
+`install.sh` (Quickshell, Hyprland, `caelestia-cli`/`caelestia-shell`,
+`app2unit`, `cliphist`, `ydotool`, `curl`, `sddm`, fonts), then run
+`./install.fish`.
 
-1. Build/install the Caelestia Quickshell plugin (`Caelestia.Config`) — see
-   `config/quickshell/caelestia/README.md` / `CMakeLists.txt`.
-2. Install dependencies: `quickshell hyprland app2unit fuzzel cliphist ydotool
-   curl sddm` + the fonts Caelestia/end-4 expect.
-3. Reload Hyprland (or log out and back in). On first launch you'll be greeted
-   and the **cheat sheet opens automatically**.
-4. `Super + A` for the AI sidebar, `Super + /` for the cheat sheet.
+After installing:
+
+1. Reload Hyprland (or log out and back in; pick the Hyprland session at SDDM).
+   On first launch you'll be greeted and the **cheat sheet opens automatically**.
+2. `Super + A` for the AI sidebar, `Super + /` for the cheat sheet.
+3. Set up Cursor in the AI sidebar: `/model cursor-default` then `/key <key>`.
 
 Your previous config is backed up to `~/.config/shadowsrealm-backup-<timestamp>`.
 
