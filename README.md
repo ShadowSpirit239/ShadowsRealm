@@ -42,12 +42,19 @@ Keybinds in `config/hypr/hyprland/keybinds.conf` use Hyprland's `bindd`
 (description) form with `Category: Description` labels, so `hyprctl binds -j`
 feeds the cheat sheet automatically. Highlights:
 
-| Keybind        | Action                                            |
-|----------------|---------------------------------------------------|
-| `Super + /`    | Toggle the keybind cheat sheet                    |
-| `Super + A`    | Toggle the AI sidebar                             |
-| `Super` (tap)  | Launcher                                          |
-| `Super + Q`    | Close window                                      |
+| Keybind             | Action                                       |
+|---------------------|----------------------------------------------|
+| `Super + /`         | Toggle the keybind cheat sheet               |
+| `Super + A`         | Toggle the AI sidebar                        |
+| `Super` (tap)       | Launcher                                     |
+| `Super + Q`         | Close window                                 |
+| `Super + T/W/C/E`   | Terminal / Browser / Editor / Files          |
+| `Super+Shift + D`   | Discord (WebCord)                            |
+| `Super+Shift + O`   | LibreOffice                                  |
+| `Super+Shift + P/I/V` | PDF / Image / Media viewer                 |
+| `Super+Shift + A/K` | Archive manager / Calculator                 |
+| `Super + J / O`     | Toggle split direction / pseudotile          |
+| `Super+Ctrl + ,/.`  | Focus previous / next monitor                |
 
 ## AI sidebar + Cursor API
 
