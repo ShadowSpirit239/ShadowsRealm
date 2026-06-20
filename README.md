@@ -114,7 +114,29 @@ fonts, utilities), then deploys the config and SDDM theme.
 ./install.sh --yes          # non-interactive (assume yes)
 ./install.sh --no-sddm      # skip the SDDM theme + sudo steps
 ./install.sh --no-deps      # skip package installs, just deploy configs
+./install.sh --no-apps      # install core deps but skip the bundled apps
 ```
+
+#### Bundled applications
+
+Beyond the shell/compositor deps, `install.sh` also installs a default app
+suite (skip with `--no-apps`):
+
+| Role          | App(s) |
+|---------------|--------|
+| Terminal      | `foot` |
+| File manager  | `thunar` (+ archive/volman/thumbnails), `nemo` |
+| Browser       | `zen-browser` |
+| Editor        | `vscodium` (`codium`) |
+| Archive       | `ark` (+ `unzip`, `p7zip`, `unrar`) |
+| Office        | `libreoffice-fresh` |
+| Chat          | `webcord` |
+| Media         | `mpv`, `imv`/`loupe` (images), `zathura` (PDF) |
+| Audio/system  | `pavucontrol`, `qps`, `gnome-calculator` |
+
+The terminal/browser/editor/file-manager defaults are wired into
+`config/hypr/variables.conf` — change those variables if you prefer different
+apps.
 
 ### Config-only deploy (any distro)
 

@@ -14,18 +14,21 @@
 #   ./install.sh --yes           # non-interactive (assume yes)
 #   ./install.sh --no-sddm       # skip the SDDM theme + (sudo) steps
 #   ./install.sh --no-deps       # skip dependency install, just deploy configs
+#   ./install.sh --no-apps       # install core deps but skip the bundled apps
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ASSUME_YES=false
 DO_SDDM=true
 DO_DEPS=true
+DO_APPS=true
 
 for arg in "$@"; do
     case "$arg" in
         --yes|-y) ASSUME_YES=true ;;
         --no-sddm) DO_SDDM=false ;;
         --no-deps) DO_DEPS=false ;;
+        --no-apps) DO_APPS=false ;;
         -h|--help)
             sed -n '2,20p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
             exit 0 ;;
@@ -87,15 +90,40 @@ install_deps() {
         # Caelestia shell build/runtime deps
         cmake ninja libqalculate pipewire wireplumber aubio
         cli11 fftw libcava
+        # Auth / keyring / location / bluetooth (referenced by execs.conf)
+        polkit-gnome gnome-keyring gammastep geoclue bluez bluez-utils
         # Wayland utilities used by the configs/keybinds
         wl-clipboard cliphist inotify-tools brightnessctl ddcutil
         trash-cli foot fish eza fastfetch starship btop jq curl
         ydotool grim slurp wf-recorder
         # Fonts / icons / theme
         adw-gtk-theme papirus-icon-theme ttf-jetbrains-mono-nerd
+        noto-fonts noto-fonts-emoji
     )
     info "Installing official-repo packages"
     sudo pacman -S --needed --noconfirm "${repo_pkgs[@]}" || warn "Some repo packages failed; review the output above."
+
+    # --- applications (the default apps the config points at, plus a sensible
+    #     Hyprland app suite). Skip with --no-apps. ---
+    if $DO_APPS; then
+        local repo_apps=(
+            # Default apps referenced in config/hypr/variables.conf + keybinds
+            thunar thunar-archive-plugin thunar-volman tumbler gvfs   # file manager ($fileExplorer) + thumbnails/mounting
+            nemo                                                      # alt file manager (Super+Alt+E)
+            pavucontrol                                               # audio control (Ctrl+Alt+V)
+            qps                                                       # process viewer (Ctrl+Alt+Escape)
+            # Archive manager
+            ark unzip p7zip unrar
+            # Office
+            libreoffice-fresh
+            # Media
+            mpv loupe imv zathura zathura-pdf-mupdf
+            # Misc desktop apps
+            gnome-calculator
+        )
+        info "Installing applications (use --no-apps to skip)"
+        sudo pacman -S --needed --noconfirm "${repo_apps[@]}" || warn "Some apps failed; review the output above."
+    fi
 
     # --- AUR packages ---
     local aur_pkgs=(
@@ -106,6 +134,17 @@ install_deps() {
     )
     info "Installing AUR packages (this can take a while; builds from source)"
     yay -S --needed --noconfirm "${aur_pkgs[@]}" || warn "Some AUR packages failed; you may need to install them manually."
+
+    # --- AUR applications (the default browser/editor + extras). Skip with --no-apps. ---
+    if $DO_APPS; then
+        local aur_apps=(
+            zen-browser-bin            # default $browser (Super+W)
+            vscodium-bin               # default $editor / codium (Super+C)
+            webcord                    # Discord client (Wayland-friendly)
+        )
+        info "Installing AUR applications (use --no-apps to skip)"
+        yay -S --needed --noconfirm "${aur_apps[@]}" || warn "Some AUR apps failed; install them manually if needed."
+    fi
 
     ok "Dependencies installed"
     warn "Optional for full end-4 fidelity (LaTeX in AI replies, emoji search, etc.):"
