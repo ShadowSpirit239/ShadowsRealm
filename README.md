@@ -92,6 +92,17 @@ when you want to refresh the login colors.
 
 ## Install
 
+### One-line bootstrap (Arch / Arch-based) — easiest
+
+Clones the repo into `~/.local/share/ShadowsRealm` and runs the full installer:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/ShadowSpirit239/ShadowsRealm/main/bootstrap.sh)
+```
+
+Extra args are forwarded to `install.sh` (e.g. `... bootstrap.sh) --yes --no-sddm`).
+Re-running updates the checkout and reinstalls.
+
 ### Full install (Arch / Arch-based) — recommended
 
 `install.sh` does everything: installs an AUR helper, all dependencies
