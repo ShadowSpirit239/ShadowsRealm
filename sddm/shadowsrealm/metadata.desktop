@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=ShadowsRealm
+Description=Material You dark greeter matching the ShadowsRealm desktop
+Author=ShadowsRealm
+License=GPL-3.0
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/
+Screenshot=
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=
+Email=
+Theme-Id=shadowsrealm
+Theme-API=2.0

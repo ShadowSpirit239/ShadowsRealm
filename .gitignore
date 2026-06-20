@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Build artifacts (Caelestia Quickshell plugin)
+build/
+*.o
+*.so
+CMakeCache.txt
+CMakeFiles/
+
+# Local state / secrets (never commit API keys or runtime state)
+*.log
+**/secrets*
+**/*apikey*
+**/*api_key*
+first_run.txt

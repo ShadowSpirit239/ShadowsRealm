@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch the active ShadowsRealm scheme and resync the SDDM greeter colors
+
+[Path]
+# The Caelestia shell rewrites these whenever the wallpaper/scheme changes.
+PathChanged=%h/.config/hypr/scheme/current.conf
+PathChanged=%h/.local/state/caelestia/scheme.json
+Unit=shadowsrealm-sddm-sync.service
+
+[Install]
+WantedBy=default.target

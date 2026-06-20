@@ -1,0 +1,7 @@
+# ShadowsRealm: allow the desktop session to resync the (root-owned) SDDM theme
+# colors without a password. Scoped to a single, root-owned helper binary so it
+# cannot be used to run anything else. Install to /etc/sudoers.d/ (mode 0440).
+#
+# Replace %wheel with your username if you are not in the wheel group, e.g.:
+#   yourname ALL=(root) NOPASSWD: /usr/local/bin/shadowsrealm-sddm-sync
+%wheel ALL=(root) NOPASSWD: /usr/local/bin/shadowsrealm-sddm-sync

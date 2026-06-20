@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync the ShadowsRealm SDDM theme colors with the active desktop scheme
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+# Writes into the root-owned theme dir via the scoped NOPASSWD sudoers rule.
+ExecStart=/usr/bin/sudo -n /usr/local/bin/shadowsrealm-sddm-sync
