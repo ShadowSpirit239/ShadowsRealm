@@ -73,7 +73,7 @@ if test "$do_sddm" = true
         # Optionally seed the login wallpaper from the Caelestia default.
         set -l wp "$config_src/quickshell/caelestia/assets/wallpaper.webp"
         if test -f "$wp"
-            sudo cp "$wp" /usr/share/sddm/themes/shadowsrealm/assets/wallpaper.png 2>/dev/null; or true
+            sudo cp "$wp" /usr/share/sddm/themes/shadowsrealm/assets/wallpaper.webp 2>/dev/null; or true
         end
 
         info "Activating theme via /etc/sddm.conf.d/shadowsrealm.conf"

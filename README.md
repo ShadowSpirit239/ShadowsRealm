@@ -97,6 +97,41 @@ session run that one helper as root without a password. If you prefer not to
 grant that, install with `--no-sddm` and run `shadowsrealm-sddm-sync` manually
 when you want to refresh the login colors.
 
+## Troubleshooting
+
+### SDDM shows a black screen
+
+The greeter is Qt6. The theme avoids Qt5-only modules (`QtGraphicalEffects`,
+`SddmComponents`) for this reason — if you saw a black screen on an older
+version, update to the latest theme:
+
+```bash
+sudo cp -r sddm/shadowsrealm /usr/share/sddm/themes/
+```
+
+Then test the theme directly (shows QML errors in the terminal if any):
+
+```bash
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/shadowsrealm
+# (older SDDM: sddm-greeter --test-mode --theme /usr/share/sddm/themes/shadowsrealm)
+```
+
+Checklist:
+- Packages: `sudo pacman -S --needed sddm qt6-declarative qt6-svg qt6-5compat qt6-imageformats`
+- Theme is selected: `/etc/sddm.conf.d/shadowsrealm.conf` contains `[Theme]` / `Current=shadowsrealm`
+- Service is enabled: `sudo systemctl enable sddm` (disable any other DM first, e.g. `sudo systemctl disable gdm lightdm`)
+- A near-black background **with** a clock and login card is the intended dark theme. A solid background with no clock/card means a QML load error — run the test-mode command above and check the output.
+
+### SDDM wasn't installed
+
+`install.fish` only deploys config files. Use `./install.sh` (the full
+installer) to install + enable SDDM, or do it manually:
+
+```bash
+sudo pacman -S --needed sddm
+sudo systemctl enable sddm
+```
+
 ## Install
 
 ### One-line bootstrap (Arch / Arch-based) — easiest

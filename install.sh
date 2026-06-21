@@ -87,6 +87,7 @@ install_deps() {
         hyprpicker hypridle hyprlock
         # Display manager + theme stack
         sddm qt6-base qt6-declarative qt6-svg qt6-quicktimeline qt6-5compat
+        qt6-imageformats
         # Caelestia shell build/runtime deps
         cmake ninja libqalculate pipewire wireplumber aubio
         cli11 fftw libcava

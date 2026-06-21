@@ -1,17 +1,17 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.15
-import SddmComponents 2.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import "." as Theme
 
 /**
- * ShadowsRealm SDDM greeter.
+ * ShadowsRealm SDDM greeter (Qt6).
  *
- * Mirrors the Caelestia lock screen: blurred wallpaper, large centered clock
- * and date, and a rounded Material You password field with session/user
- * selectors. Colors come from the auto-generated Colors.qml singleton, so the
- * login screen tracks the active desktop scheme.
+ * Mirrors the Caelestia lock screen: wallpaper + dark scrim, large centered
+ * clock/date, and a rounded Material You password field with session/user
+ * selectors. Colors come from the auto-generated Colors.qml singleton.
+ *
+ * Note: intentionally avoids QtGraphicalEffects and SddmComponents (Qt5-only),
+ * which cause a black screen under the Qt6 SDDM greeter.
  */
 Rectangle {
     id: root
@@ -21,30 +21,21 @@ Rectangle {
 
     property int sessionIndex: sessionModel.lastIndex
 
-    TextConstants { id: textConstants }
-
-    // ---- Background (blurred wallpaper) ----
+    // ---- Background (wallpaper + dark scrim). No blur dependency. ----
     Image {
         id: wallpaper
         anchors.fill: parent
         source: config.background || ""
         fillMode: Image.PreserveAspectCrop
-        visible: false
         asynchronous: true
         cache: true
+        visible: status === Image.Ready
     }
-    GaussianBlur {
-        anchors.fill: wallpaper
-        source: wallpaper
-        radius: Number(config.blurRadius) || 48
-        samples: 32
-        visible: wallpaper.status === Image.Ready
-    }
-    // Scrim so text stays readable over any wallpaper.
+    // Scrim keeps text readable; fully opaque when no wallpaper is present.
     Rectangle {
         anchors.fill: parent
         color: Theme.Colors.background
-        opacity: wallpaper.status === Image.Ready ? 0.45 : 1.0
+        opacity: wallpaper.status === Image.Ready ? 0.5 : 1.0
     }
 
     // ---- Clock + date ----
@@ -126,7 +117,7 @@ Rectangle {
                     anchors.rightMargin: 16
                     verticalAlignment: TextInput.AlignVCenter
                     echoMode: TextInput.Password
-                    placeholderText: textConstants.password
+                    placeholderText: "Password"
                     color: Theme.Colors.onSurface
                     placeholderTextColor: Theme.Colors.onSurfaceVariant
                     font.family: config.font || "sans-serif"
@@ -145,7 +136,7 @@ Rectangle {
                 height: 50
                 font.family: config.font || "sans-serif"
                 contentItem: Text {
-                    text: textConstants.login
+                    text: "Log In"
                     color: Theme.Colors.onPrimary
                     font.pixelSize: 18
                     font.weight: Font.DemiBold
@@ -214,11 +205,11 @@ Rectangle {
         target: sddm
         function onLoginSucceeded() {
             message.color = Theme.Colors.onSurfaceVariant
-            message.text = textConstants.loginSucceeded
+            message.text = "Login succeeded"
         }
         function onLoginFailed() {
             message.color = Theme.Colors.error
-            message.text = textConstants.loginFailed
+            message.text = "Login failed"
             passwordField.text = ""
             passwordField.forceActiveFocus()
         }
